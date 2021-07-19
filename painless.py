@@ -33,7 +33,6 @@ if __name__ == '__main__':
 
     state = props.get(prop, initial_state)
     task.log.info('painless: state=%r', state)
-    raise SystemExit
 
     if state == initial_state:
         task.set_user_properties(**{prop: remote_first_state})
