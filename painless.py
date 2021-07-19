@@ -17,7 +17,7 @@ remote_second_state = 'remote_second'
 
 
 def terminate_instance():
-    cmd = ['shutdown', '-h', 'now']
+    cmd = ['sudo', 'shutdown', '-h', 'now']
     print(' '.join(cmd))
     return run(cmd).returncode == 0
 
