@@ -38,9 +38,8 @@ if __name__ == '__main__':
 
     if state == initial_state:
         task.set_user_properties(**{prop: remote_first_state})
-        task.execute_remotely(args.queue)
-
-    if state == remote_first_state:
+        task.execute_remotely(args.queue)  # This will exit the process
+    elif state == remote_first_state:
         task.set_user_properties(**{prop: remote_second_state})
         if fork():
             num_minutes = 10
@@ -52,10 +51,12 @@ if __name__ == '__main__':
 
             task.log.info('painless: still here after %s minutes', num_minutes)
             raise SystemExit('error: run full {} minutes'.format(num_minutes))
-
         else:  # child process
             task.log.info('painless: child terminating instance')
             if not terminate_instance():
                 raise SystemExit('error: cannot terminate instance')
-
-    print('reborn!')
+            raise SystemExit(0)
+    elif state == remote_second_state:
+        print('reborn!')
+    else:
+        raise SystemExit(f'error: unknown state - {state!r}')
