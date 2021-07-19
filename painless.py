@@ -31,7 +31,7 @@ if __name__ == '__main__':
     task = Task.init(project_name='clearml-test', task_name='painless')
     props = task.get_user_properties()
 
-    state = props.get(prop, initial_state)
+    state = props.get(prop, initial_state).get('value')
     task.log.info('painless: state=%r', state)
 
     if state == initial_state:
@@ -42,7 +42,8 @@ if __name__ == '__main__':
         task.set_user_properties(**{prop: remote_second_state})
         if fork():
             num_minutes = 10
-            task.log.info('painless: parent waiting for %s minutes', num_minutes)
+            task.log.info(
+                'painless: parent waiting for %s minutes', num_minutes)
             for i in range(1, num_minutes * 60):
                 print('iteration {}'.format(i))
                 sleep(1)
