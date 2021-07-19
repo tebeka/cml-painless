@@ -29,9 +29,11 @@ if __name__ == '__main__':
 
     prop = 'painless_state'
     task = Task.init(project_name='clearml-test', task_name='painless')
-    props = task.get_user_properties(value_only=True)
+    props = task.get_user_properties()
 
     state = props.get(prop, initial_state)
+    if isinstance(state, dict):
+        state = state['value']
     task.log.info('painless: state=%r', state)
 
     if state == initial_state:
